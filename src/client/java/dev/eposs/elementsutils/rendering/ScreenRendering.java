@@ -2,7 +2,7 @@ package dev.eposs.elementsutils.rendering;
 
 import dev.eposs.elementsutils.ElementsUtils;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerDisplay;
-import dev.eposs.elementsutils.feature.excaliburtimer.ExcaliburTimerDisplay;
+import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeDisplay;
 import dev.eposs.elementsutils.feature.moonphase.MoonPhaseDisplay;
 import dev.eposs.elementsutils.feature.pet.PetDisplay;
 import dev.eposs.elementsutils.feature.potion.PotionDisplay;
@@ -33,7 +33,7 @@ public class ScreenRendering {
         MoonPhaseDisplay.render(context, client);
         TimeDisplay.render(context, client);
         BossTimerDisplay.render(context, client);
-        ExcaliburTimerDisplay.render(context, client, 6);
+        ExcaliburTimeDisplay.render(context, client, 6);
         PetDisplay.render(context, client);
         PotionDisplay.render(context, client);
         XpMeter.render(context, client);

@@ -1,4 +1,4 @@
-package dev.eposs.elementsutils.feature.excaliburtimer;
+package dev.eposs.elementsutils.feature.excaliburtime;
 
 import dev.eposs.elementsutils.config.ModConfig;
 import dev.eposs.elementsutils.util.TimerUtil;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 
-public class ExcaliburTimerDisplay {
+public class ExcaliburTimeDisplay {
     private static final int DAYS = 7;
     private static final long EXTRA_SECONDS = DAYS * 20;
 
@@ -21,24 +21,25 @@ public class ExcaliburTimerDisplay {
         ModConfig.getConfig().excaliburTime.show = !ModConfig.getConfig().excaliburTime.show;
         ModConfig.save();
 
-        if (ModConfig.getConfig().excaliburTime.show) ExcaliburTimerData.updateData();
+        if (ModConfig.getConfig().excaliburTime.show) ExcaliburTimeData.updateData();
     }
 
     public static void render(DrawContext context, MinecraftClient client, int baseLine) {
         var config = ModConfig.getConfig().excaliburTime;
         if (!config.show) return;
 
-        var data = ExcaliburTimerData.getInstance();
+        var data = ExcaliburTimeData.getInstance();
         ZonedDateTime targetTime = calculateTargetTime(data.getTime());
         Duration timeUntilTarget = targetTime == null ? Duration.ZERO : Duration.between(ZonedDateTime.now(), targetTime);
 
         drawText(client, context, baseLine, Text.translatable("elements-utils.display.excaliburTime.title").formatted(Formatting.UNDERLINE));
+        String nextUser = data.getNextUser();
         drawText(client, context, baseLine + 1, Text.literal("")
                 .append(TimerUtil.optionalFormattedText(Text.translatable("elements-utils.display.excaliburTime.next_player"), config.colorExcaliburNames, Formatting.RED))
                 .append(TimerUtil.optionalFormattedText(
-                        data.getNextUser().isEmpty()
+                        (nextUser == null || nextUser.isEmpty())
                                 ? Text.translatable("elements-utils.unknown")
-                                : Text.literal(data.getNextUser()),
+                                : Text.literal(nextUser),
                         config.colorExcaliburNames,
                         Formatting.GOLD
                 ))

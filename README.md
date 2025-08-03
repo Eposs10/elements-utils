@@ -26,16 +26,22 @@ _Elements 3 - 1.21.4_
 
 - XP Meter (Basalt)
   - Measure Basalt Gen's with keybind (default: none) and target XP / target time (configurable)
+- Chat Enhancements
+  - show a LuckyDrop Summary within the LuckyDrop Message for a customizable Time (Minutes)
+- Player Enhancements
+  - Option to hide the Own Armor or Armorpieces (Cosmetic)
 - Player Level Enhancements
-  - Option to format level with dots as thousands separators (Player Level and Level in Player List)
+  - Option to format level with dots as thousands separators (Player Level, Top List Level and Level in Player List)
   - Option to change the color of the player levels
   - Option to change the color of the levels in the player list
-- Player XP Enhancements
+- Elements XP Enhancements
   - Option to format XP with dots as thousands separators
   - Option to change the color of the XP display
   - Option to hide the max pet
-  - Option to show a XP/s indicator
+  - Option to show a XP/s indicator with customizable Calculation
   - Option to make a Y-Axis offset for the XP display
+- Overlay Settings
+  - Option for Override the AFK-Title Stay Time - INFINITY or Seconds 
 - Excalibur Time Display
   - Show the time until the next Excalibur is available
   - Show the next Player who can pull Excalibur

@@ -13,23 +13,25 @@ import net.minecraft.text.Style;
 import net.minecraft.text.Text;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Mixin(value = InGameHud.class)
 public abstract class InGameHudMixin {
 
-    @Shadow
-    private Text overlayMessage;
-    @Shadow
-    private int overlayRemaining;
+    @Shadow private Text overlayMessage;
+    @Shadow private int overlayRemaining;
+    @Shadow public abstract void setTitleTicks(int fadeIn, int stay, int fadeOut);
 
-	/**
+    @Unique
+    private static final Pattern XP_PATTERN = Pattern.compile("^[^:]+: ([\\d,.]+)/[\\d,.]+ XP");
+
+    /**
      * Updates the pet XP display when an overlay message is shown.
      *
      * @param context The drawing context.
@@ -38,20 +40,18 @@ public abstract class InGameHudMixin {
      */
     @Inject(at = @At("HEAD"), method = "renderOverlayMessage")
     private void renderOverlayMessage(DrawContext context, RenderTickCounter tickCounter, CallbackInfo ci) {
-        if (this.overlayMessage != null && this.overlayRemaining > 0) {
-            PetDisplay.updatePetXP(this.overlayMessage, false);
+        if (overlayMessage != null && overlayRemaining > 0) {
+            PetDisplay.updatePetXP(overlayMessage, false);
         }
     }
 
     /**
      * Intercepts and formats the overlay message before it is displayed.
-     * <p>
-     * - Formats XP numbers with dots if enabled.<br>
-     * - Optionally appends colored XP/s directly after the first "XP".<br>
-     * - Hides max pet XP if configured.<br>
-     * - Applies a custom overlay color if set in the config.<br>
+     * - Formats XP numbers with dots if enabled.
+     * - Optionally appends colored XP/s directly after the first "XP".
+     * - Hides max pet XP if configured.
+     * - Applies a custom overlay color if set in the config.
      * - Cancels the original method to display the modified message.
-     * </p>
      *
      * @param message The original overlay message to be displayed.
      * @param tinted  Whether the message should be tinted.
@@ -68,36 +68,37 @@ public abstract class InGameHudMixin {
         // Update SkillTracker PlayerData
         SkillTracker.update(message);
 
+        var config = ModConfig.getConfig();
         String original = message.getString();
-        String formatted = ModConfig.getConfig().playerXPConfig.enabled
+        String formatted = config.elementsXPConfig.enabled
                 ? XpFormat.formatNumbersWithDots(original)
                 : original;
 
         Style overlayStyle = message.getStyle();
-        var overlayColor = ModConfig.getConfig().playerXPConfig.overlayMessageColor;
+        var overlayColor = config.elementsXPConfig.overlayMessageColor;
         if (overlayColor != null && formatted.contains("XP")) {
             overlayStyle = overlayStyle.withColor(overlayColor.color);
         }
 
         Text xpPerSecText = null;
         Style xpPerSecStyle = Style.EMPTY;
-        Matcher matcher = Pattern.compile("^[^:]+: ([\\d,.]+)/[\\d,.]+ XP").matcher(original);
+        var matcher = XP_PATTERN.matcher(original);
         if (matcher.find()) {
             int farmingXp = Integer.parseInt(matcher.group(1).replace(".", "").replace(",", ""));
             FarmingXpTracker.update(farmingXp);
 
-            if (ModConfig.getConfig().playerXPConfig.showXpPerSecond) {
+            if (config.elementsXPConfig.showXpPerSecond) {
                 float xpPerSec = FarmingXpTracker.getXpPerSecond();
-                var color = ModConfig.getConfig().playerXPConfig.xpPerSecondColor;
+                var color = config.elementsXPConfig.xpPerSecondColor;
                 if (color != null) xpPerSecStyle = xpPerSecStyle.withColor(color.color);
                 xpPerSecText = Text.literal(String.format("%.2fXP/s", xpPerSec)).setStyle(xpPerSecStyle);
             }
         }
 
-        if (ModConfig.getConfig().playerXPConfig.hideMaxPetXP) {
+        if (config.elementsXPConfig.hideMaxPetXP) {
             if (original.matches(".*Pet: [\\d,.]+/-1 XP$")) PetDisplay.setPetMaxLevel();
             original = original.replaceFirst("\\s*\\p{So}?\\s*Pet: [\\d,.]+/-1 XP$", "");
-            formatted = ModConfig.getConfig().playerXPConfig.enabled
+            formatted = config.elementsXPConfig.enabled
                     ? XpFormat.formatNumbersWithDots(original)
                     : original;
         }
@@ -107,19 +108,19 @@ public abstract class InGameHudMixin {
             if (xpIndex != -1) {
                 String beforeXp = formatted.substring(0, xpIndex + 2);
                 String afterXp = formatted.substring(xpIndex + 2);
-                this.overlayMessage = Text.literal(beforeXp).setStyle(overlayStyle)
+                overlayMessage = Text.literal(beforeXp).setStyle(overlayStyle)
                         .append(Text.literal(" (").setStyle(xpPerSecStyle))
                         .append(xpPerSecText)
                         .append(Text.literal(")").setStyle(xpPerSecStyle))
                         .append(Text.literal(afterXp).setStyle(overlayStyle));
-                this.overlayRemaining = 60;
+                overlayRemaining = 60;
                 ci.cancel();
                 return;
             }
         }
 
-        this.overlayMessage = Text.literal(formatted).setStyle(overlayStyle);
-        this.overlayRemaining = 60;
+        overlayMessage = Text.literal(formatted).setStyle(overlayStyle);
+        overlayRemaining = 60;
         ci.cancel();
     }
 
@@ -139,8 +140,7 @@ public abstract class InGameHudMixin {
             index = 3
     )
     private int modifyOverlayMessageY(int originalY) {
-        int yOffset = ModConfig.getConfig().playerXPConfig.overlayMessageYOffset;
-        return originalY + yOffset;
+        return originalY + ModConfig.getConfig().elementsXPConfig.overlayMessageYOffset;
     }
 
     /**
@@ -159,7 +159,8 @@ public abstract class InGameHudMixin {
             index = 1
     )
     private String modifyLevelText(String original) {
-        if (!ModConfig.getConfig().playerLevelConfig.enabled) return original;
+        var config = ModConfig.getConfig();
+        if (!config.playerLevelConfig.enabled) return original;
         try {
             int level = Integer.parseInt(original);
             return Util.formatLevel(level);
@@ -184,10 +185,35 @@ public abstract class InGameHudMixin {
             index = 4
     )
     private int modifyLevelColor(int originalColor) {
-        if (ModConfig.getConfig().playerLevelConfig.formattedPlayerLevelColor == null) return originalColor;
-        if (originalColor == 0) return originalColor;
-        return ModConfig.getConfig().playerLevelConfig.formattedPlayerLevelColor.color;
+        var config = ModConfig.getConfig();
+        var color = config.playerLevelConfig.formattedPlayerLevelColor;
+        if (color == null || originalColor == 0) return originalColor;
+        return color.color;
     }
 
-
+    /**
+     * Überschreibt die Titel-Anzeigezeit für AFK-Titel, wenn in der Config aktiviert.
+     * Die Dauer wird abhängig vom Enum-Wert gesetzt:
+     * - INFINITY: Maximale Dauer (`Integer.MAX_VALUE`)
+     * - SECONDS: Konfigurierbare Sekundenanzahl (\* 20 für Ticks, mindestens 1 Sekunde)
+     * Sonst werden Standardwerte verwendet.
+     *
+     * @param title Der anzuzeigende Titeltext.
+     * @param ci    Callback-Info für das Mixin.
+     */
+    @Inject(
+            method = "setTitle",
+            at = @At("HEAD")
+    )
+    private void onSetTitle(Text title, CallbackInfo ci) {
+        var config = ModConfig.getConfig().overlaySettings;
+        if (config.overrideAfkTitleTime && title != null && title.getString().trim().equalsIgnoreCase("afk")) {
+            int stay = (config.afkTitleTimeType == ModConfig.OverlaySettingsConfig.AfkTitleTimeType.INFINITY)
+                    ? Integer.MAX_VALUE
+                    : Math.max(1, config.afkTitleTimeSeconds) * 20;
+            setTitleTicks(0, stay, 0);
+        } else {
+            setTitleTicks(10, 70, 20);
+        }
+    }
 }

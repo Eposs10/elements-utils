@@ -1,9 +1,9 @@
 package dev.eposs.elementsutils.api.timer;
 
-import dev.eposs.elementsutils.feature.excaliburtimer.ExcaliburTimerData;
+import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeData;
 
-public class ExcaliburTimerApi extends AbstractTimerApi<ExcaliburTimerData> {
+public class ExcaliburTimerApi extends AbstractTimerApi<ExcaliburTimeData> {
     public ExcaliburTimerApi() {
-        super(ExcaliburTimerData.class, "https://elements-utils.eposs.dev/api/excalibur?server=$SERVER_ID");
+        super(ExcaliburTimeData.class, "https://elements-utils.eposs.dev/api/excalibur?server=$SERVER_ID");
     }
 }

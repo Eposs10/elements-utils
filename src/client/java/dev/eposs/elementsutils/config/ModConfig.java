@@ -38,7 +38,6 @@ public class ModConfig implements ConfigData {
         }
     }
 
-
     public boolean showMoonPhaseDisplay = true;
     public boolean showTimeDisplay = true;
     public boolean showPetDisplay = true;
@@ -62,9 +61,9 @@ public class ModConfig implements ConfigData {
         public boolean show = true;
         public boolean textOutline = true;
 
-        public TimeFormat bossTimeFormat = TimeFormat.RELATIVE;
         public boolean colorBossNames = true;
         public boolean colorBossTime = true;
+        public TimeFormat bossTimeFormat = TimeFormat.RELATIVE;
     }
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -96,10 +95,22 @@ public class ModConfig implements ConfigData {
     }
 
     @ConfigEntry.Gui.CollapsibleObject
-    public XPMeterConfig xpMeterConfig = new XPMeterConfig();
-    public static class XPMeterConfig {
-        public Integer measuringXpTarget = 500;
-        public Integer measuringTimeTarget = 300;
+    public ChatEnhancementsConfig chatEnhancements = new ChatEnhancementsConfig();
+
+    public static class ChatEnhancementsConfig {
+        public boolean showLuckyDropSummary = false;
+        public int luckyDropSummaryMinutes = 60;
+    }
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public PlayerEnhancementsConfig playerEnhancements = new PlayerEnhancementsConfig();
+
+    public static class PlayerEnhancementsConfig {
+        public boolean hideOwnArmor = false;
+        public boolean hideHelmet = true;
+        public boolean hideChestplate = true;
+        public boolean hideLeggings = true;
+        public boolean hideBoots = false;
     }
 
     @ConfigEntry.Gui.CollapsibleObject
@@ -108,6 +119,35 @@ public class ModConfig implements ConfigData {
         public boolean enabled = true;
         public KnownColor formattedPlayerLevelColor = KnownColor.EXPERIENCE_GREEN;
         public KnownColor formattedPlayerListLevelColor = KnownColor.YELLOW;
+    }
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public ElementsXPConfig elementsXPConfig = new ElementsXPConfig();
+    public static class ElementsXPConfig {
+        public boolean enabled = true;
+        public boolean showXpPerSecond = false;
+        public KnownColor xpPerSecondColor = KnownColor.GRAY;
+        public int maxAgeSeconds = 20;
+        public int resetTimeoutSeconds = 5;
+        public KnownColor overlayMessageColor = KnownColor.DARK_AQUA;
+        public boolean hideMaxPetXP = false;
+        public int overlayMessageYOffset = 0;
+    }
+
+    @ConfigEntry.Gui.CollapsibleObject
+    public OverlaySettingsConfig overlaySettings = new OverlaySettingsConfig();
+    public static class OverlaySettingsConfig {
+        public boolean overrideAfkTitleTime = false;
+
+        @ConfigEntry.Gui.Tooltip
+        public AfkTitleTimeType afkTitleTimeType = AfkTitleTimeType.INFINITY;
+
+        public int afkTitleTimeSeconds = 30;
+
+        public enum AfkTitleTimeType {
+            INFINITY,
+            SECONDS
+        }
     }
 
     public enum KnownColor {
@@ -134,14 +174,10 @@ public class ModConfig implements ConfigData {
     }
 
     @ConfigEntry.Gui.CollapsibleObject
-    public PlayerXPConfig playerXPConfig = new PlayerXPConfig();
-    public static class PlayerXPConfig {
-        public boolean enabled = true;
-        public boolean showXpPerSecond = false;
-        public KnownColor xpPerSecondColor = KnownColor.GRAY;
-        public KnownColor overlayMessageColor = KnownColor.DARK_AQUA;
-        public boolean hideMaxPetXP = false;
-        public int overlayMessageYOffset = 0;
+    public XPMeterConfig xpMeterConfig = new XPMeterConfig();
+    public static class XPMeterConfig {
+        public Integer measuringXpTarget = 500;
+        public Integer measuringTimeTarget = 300;
     }
 
     @ConfigEntry.Gui.CollapsibleObject

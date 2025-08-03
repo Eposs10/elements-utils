@@ -1,5 +1,6 @@
 package dev.eposs.elementsutils.feature.xpformat;
 
+import dev.eposs.elementsutils.config.ModConfig;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -14,16 +15,18 @@ public class FarmingXpTracker {
 
 	/**
 	 * Updates the tracker with the current XP value.
-	 * Resets the history if more than 5 seconds have passed since the last update.
+	 * Resets the history if more than resetTimeoutSeconds have passed since the last update.
 	 * Only stores values if the XP has changed.
-	 * Removes values older than 20 seconds.
+	 * Removes values older than maxAgeSeconds.
 	 *
 	 * @param currentXp the current XP value
 	 */
 	public static void update(int currentXp) {
 		long now = System.currentTimeMillis();
+		int maxAgeSeconds = ModConfig.getConfig().elementsXPConfig.maxAgeSeconds;
+		int resetTimeoutSeconds = ModConfig.getConfig().elementsXPConfig.resetTimeoutSeconds;
 
-		if (now - lastMessageTime > 5000) {
+		if (now - lastMessageTime > resetTimeoutSeconds * 1000L) {
 			timestamps.clear();
 			xpValues.clear();
 			lastXp = currentXp;
@@ -36,7 +39,7 @@ public class FarmingXpTracker {
 		}
 		lastMessageTime = now;
 
-		while (!timestamps.isEmpty() && now - timestamps.getFirst() > 20000) {
+		while (!timestamps.isEmpty() && now - timestamps.getFirst() > maxAgeSeconds * 1000L) {
 			timestamps.removeFirst();
 			xpValues.removeFirst();
 		}

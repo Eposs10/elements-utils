@@ -1,10 +1,12 @@
 package dev.eposs.elementsutils;
 
+import dev.eposs.elementsutils.feature.armorhide.RenderArmourCallback;
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.feature.armorhide.RenderListener;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerData;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerDisplay;
-import dev.eposs.elementsutils.feature.excaliburtimer.ExcaliburTimerData;
-import dev.eposs.elementsutils.feature.excaliburtimer.ExcaliburTimerDisplay;
+import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeData;
+import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeDisplay;
 import dev.eposs.elementsutils.feature.loot.LootSound;
 import dev.eposs.elementsutils.feature.pet.PetDisplay;
 import dev.eposs.elementsutils.feature.playerbase.BaseBorderDisplay;
@@ -48,8 +50,10 @@ public class ElementsUtilsClient implements ClientModInitializer {
         registerKeyBinding();
         registerEvents();
 
-        ExcaliburTimerData.startUpdateTimers();
+        ExcaliburTimeData.startUpdateTimers();
         BossTimerData.startUpdateTimers();
+
+        RenderArmourCallback.EVENT.register(new RenderListener());
     }
 
     private void registerEvents() {
@@ -79,7 +83,7 @@ public class ElementsUtilsClient implements ClientModInitializer {
         if (server != ModConfig.InternalConfig.Servers.UNKNOWN) {
             PetDisplay.loadPet(handler.getRegistryManager());
             BossTimerData.updateData();
-            ExcaliburTimerData.updateData();
+            ExcaliburTimeData.updateData();
         }
     }
 
@@ -161,7 +165,7 @@ public class ElementsUtilsClient implements ClientModInitializer {
             BossTimerDisplay.toggleDisplay(client);
         }
         while (excaliburTimeToggle.wasPressed()) {
-            ExcaliburTimerDisplay.toggleDisplay(client);
+            ExcaliburTimeDisplay.toggleDisplay(client);
         }
         while (xpMeasureTrigger.wasPressed()) {
             XpMeter.startXPMeasurement(client);

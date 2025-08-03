@@ -26,6 +26,17 @@
 
   "text.autoconfig.elements-utils.option.showBaseDisplay": "Spieler Base Grenzen anzeigen",
 
+  "text.autoconfig.elements-utils.option.chatEnhancements": "Chat Verbesserungen",
+  "text.autoconfig.elements-utils.option.chatEnhancements.showLuckyDropSummary": "Lucky Drop Zusammenfassung anzeigen",
+  "text.autoconfig.elements-utils.option.chatEnhancements.luckyDropSummaryMinutes": "Lucky Drop Zusammenfassung Minuten",
+
+  "text.autoconfig.elements-utils.option.playerEnhancements": "Spieler Verbesserungen",
+  "text.autoconfig.elements-utils.option.playerEnhancements.hideOwnArmor": "Eigene Rüstung ausblenden",
+  "text.autoconfig.elements-utils.option.playerEnhancements.hideHelmet": "Helm ausblenden",
+  "text.autoconfig.elements-utils.option.playerEnhancements.hideChestplate": "Brustplatte ausblenden",
+  "text.autoconfig.elements-utils.option.playerEnhancements.hideLeggings": "Hose ausblenden",
+  "text.autoconfig.elements-utils.option.playerEnhancements.hideBoots": "Schuhe ausblenden",
+
   "text.autoconfig.elements-utils.option.potionDisplay": "Heil/Mana-Tränke Display",
   "text.autoconfig.elements-utils.option.potionDisplay.show": "Tränke anzeigen",
   "text.autoconfig.elements-utils.option.potionDisplay.position": "Display Position",
@@ -39,13 +50,21 @@
   "text.autoconfig.elements-utils.option.playerLevelConfig.formattedPlayerLevelColor": "Spielerlevel Farbe",
   "text.autoconfig.elements-utils.option.playerLevelConfig.formattedPlayerListLevelColor": "Farbe (Spielerlevel in der Tab-Liste)",
 
-  "text.autoconfig.elements-utils.option.playerXPConfig": "Spieler XP Optionen",
-  "text.autoconfig.elements-utils.option.playerXPConfig.enabled": "Formatiere Zahlen der Spieler-XP",
-  "text.autoconfig.elements-utils.option.playerXPConfig.showXpPerSecond": "XP/s anzeigen",
-  "text.autoconfig.elements-utils.option.playerXPConfig.xpPerSecondColor": "XP/s Farbe",
-  "text.autoconfig.elements-utils.option.playerXPConfig.hideMaxPetXP": "Max Pet-XP ausblenden",
-  "text.autoconfig.elements-utils.option.playerXPConfig.overlayMessageColor": "Farbe der Overlay-Nachricht",
-  "text.autoconfig.elements-utils.option.playerXPConfig.overlayMessageYOffset": "Overlay Nachricht Y-Offset",
+  "text.autoconfig.elements-utils.option.elementsXPConfig": "Elements XP Optionen",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.enabled": "Formatiere Zahlen der Elements-XP",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.showXpPerSecond": "XP/s anzeigen",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.maxAgeSeconds": "XP/s Max Daten Alter (Sekunden)",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.resetTimeoutSeconds": "XP/s Daten Reset Timeout (Sekunden)",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.xpPerSecondColor": "XP/s Farbe",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.hideMaxPetXP": "Max Pet-XP ausblenden",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.overlayMessageColor": "Farbe der Overlay-Nachricht",
+  "text.autoconfig.elements-utils.option.elementsXPConfig.overlayMessageYOffset": "Overlay Nachricht Y-Offset",
+
+  "text.autoconfig.elements-utils.option.overlaySettings": "Overlay Einstellungen",
+  "text.autoconfig.elements-utils.option.overlaySettings.overrideAfkTitleTime": "Überschreibe AFK Titel Verweildauer",
+  "text.autoconfig.elements-utils.option.overlaySettings.afkTitleTimeType": "AFK Titel Verweildauer Typ",
+  "text.autoconfig.elements-utils.option.overlaySettings.afkTitleTimeType.@Tooltip": "Wenn auf 'INFINITY' gesetzt', bleibt der AFK Titel bis zum nächsten Spieler-Move. Wenn auf 'SECONDS' gesetzt, bleibt der AFK Titel für die angegebene Anzahl an Sekunden.",
+  "text.autoconfig.elements-utils.option.overlaySettings.afkTitleTimeSeconds": "AFK Titel Verweildauer (Sekunden)",
 
   "text.autoconfig.elements-utils.option.devUtils": "Development Utils (bitte ignorieren)",
   "text.autoconfig.elements-utils.option.devUtils.enable": "Enabled",
