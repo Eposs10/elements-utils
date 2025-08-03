@@ -57,8 +57,17 @@ public class MovableRenderWidget extends ClickableWidget {
 
     @Override
     protected void onDrag(double mouseX, double mouseY, double deltaX, double deltaY) {
-        this.setX((int) (mouseX - offsetX));
-        this.setY((int) (mouseY - offsetY));
+        int newX = (int) (mouseX - offsetX);
+        if (newX < 0) newX = 0;
+        int screenWidth = MinecraftClient.getInstance().getWindow().getScaledWidth();
+        if (newX + width > screenWidth) newX = screenWidth - width;
+        this.setX(newX);
+
+        int newY = (int) (mouseY - offsetY);
+        if (newY < 0) newY = 0;
+        int screenHeight = MinecraftClient.getInstance().getWindow().getScaledHeight();
+        if (newY + height > screenHeight) newY = screenHeight - height;
+        this.setY(newY);
     }
 
     @Override
