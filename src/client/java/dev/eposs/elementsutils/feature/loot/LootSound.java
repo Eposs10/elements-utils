@@ -12,7 +12,6 @@ public class LootSound {
         if (!ModConfig.getConfig().playLootSound) return;
         
         String msg = text.getString();
-        // TODO: check actual messages
         if (msg.startsWith("Loot:")) playCoolSound();
         if (msg.startsWith("SB Loot:")) playCoolSound();
         if (msg.startsWith("PB Loot:")) playCoolSound();
