@@ -179,6 +179,13 @@ public class ModConfig implements ConfigData {
         public Integer measuringXpTarget = 500;
         public Integer measuringTimeTarget = 300;
     }
+    
+    @ConfigEntry.Gui.CollapsibleObject
+    public BlockBreakCounterConfig blockBreakCounterConfig = new BlockBreakCounterConfig();
+    public static class BlockBreakCounterConfig {
+        public boolean enabled = false;
+        public int time = 10;
+    }
 
     @ConfigEntry.Gui.CollapsibleObject
     public DevUtilsConfig devUtils = new DevUtilsConfig();

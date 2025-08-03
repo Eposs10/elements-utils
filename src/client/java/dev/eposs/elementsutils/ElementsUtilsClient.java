@@ -3,6 +3,7 @@ package dev.eposs.elementsutils;
 import dev.eposs.elementsutils.feature.armorhide.RenderArmourCallback;
 import dev.eposs.elementsutils.config.ModConfig;
 import dev.eposs.elementsutils.feature.armorhide.RenderListener;
+import dev.eposs.elementsutils.feature.blockbreak.BlockBreakCounter;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerData;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerDisplay;
 import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeData;
@@ -23,6 +24,8 @@ import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
+import net.fabricmc.fabric.api.event.client.player.ClientPlayerBlockBreakEvents;
+import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -52,8 +55,6 @@ public class ElementsUtilsClient implements ClientModInitializer {
 
         ExcaliburTimeData.startUpdateTimers();
         BossTimerData.startUpdateTimers();
-
-        RenderArmourCallback.EVENT.register(new RenderListener());
     }
 
     private void registerEvents() {
@@ -67,6 +68,10 @@ public class ElementsUtilsClient implements ClientModInitializer {
         ClientTickEvents.END_CLIENT_TICK.register(this::clientTick);
 
         ClientReceiveMessageEvents.ALLOW_GAME.register(this::onGameMessage);
+
+        RenderArmourCallback.EVENT.register(new RenderListener());
+
+        ClientPlayerBlockBreakEvents.AFTER.register(BlockBreakCounter::onBreak);
     }
 
     private void clientTick(MinecraftClient client) {

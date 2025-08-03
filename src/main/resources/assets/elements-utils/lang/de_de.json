@@ -66,6 +66,10 @@
   "text.autoconfig.elements-utils.option.overlaySettings.afkTitleTimeType.@Tooltip": "Wenn auf 'INFINITY' gesetzt', bleibt der AFK Titel bis zum nächsten Spieler-Move. Wenn auf 'SECONDS' gesetzt, bleibt der AFK Titel für die angegebene Anzahl an Sekunden.",
   "text.autoconfig.elements-utils.option.overlaySettings.afkTitleTimeSeconds": "AFK Titel Verweildauer (Sekunden)",
 
+  "text.autoconfig.elements-utils.option.blockBreakCounterConfig": "Block Abbau Zähler",
+  "text.autoconfig.elements-utils.option.blockBreakCounterConfig.enabled": "Block Abbau Zähler anzeigen",
+  "text.autoconfig.elements-utils.option.blockBreakCounterConfig.time": "Abgebaute Blöcke pro Sekunde in den letzten x Sekunden, x=",
+
   "text.autoconfig.elements-utils.option.devUtils": "Development Utils (bitte ignorieren)",
   "text.autoconfig.elements-utils.option.devUtils.enable": "Enabled",
 
