@@ -2,7 +2,9 @@ package dev.eposs.elementsutils.util;
 
 import dev.eposs.elementsutils.ElementsUtils;
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.rendering.RenderConfigScreen;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.text.Text;
 
 public class DevUtil {
     public static void doSomething(MinecraftClient client) {
@@ -10,6 +12,10 @@ public class DevUtil {
         if (!ModConfig.getConfig().devUtils.enable) return;
 
         ElementsUtils.LOGGER.info("dev");
+
+        
+        MinecraftClient.getInstance().setScreen(new RenderConfigScreen());
+
 
         // PlayerInventory inventory = client.player.getInventory();
         // ItemStack stack = inventory.getStack(0);

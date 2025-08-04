@@ -1,7 +1,7 @@
 package dev.eposs.elementsutils;
 
-import dev.eposs.elementsutils.feature.armorhide.RenderArmourCallback;
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.feature.armorhide.RenderArmourCallback;
 import dev.eposs.elementsutils.feature.armorhide.RenderListener;
 import dev.eposs.elementsutils.feature.blockbreak.BlockBreakCounter;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerData;
@@ -13,6 +13,7 @@ import dev.eposs.elementsutils.feature.pet.PetDisplay;
 import dev.eposs.elementsutils.feature.playerbase.BaseBorderDisplay;
 import dev.eposs.elementsutils.feature.potion.PotionDisplay;
 import dev.eposs.elementsutils.feature.xpmeter.XpMeter;
+import dev.eposs.elementsutils.rendering.ICustomScreenWidget;
 import dev.eposs.elementsutils.rendering.ScreenRendering;
 import dev.eposs.elementsutils.util.DevUtil;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -25,7 +26,6 @@ import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents;
 import net.fabricmc.fabric.api.client.rendering.v1.HudLayerRegistrationCallback;
 import net.fabricmc.fabric.api.client.rendering.v1.WorldRenderEvents;
 import net.fabricmc.fabric.api.event.client.player.ClientPlayerBlockBreakEvents;
-import net.fabricmc.fabric.api.event.player.PlayerBlockBreakEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketSender;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.network.ClientPlayNetworkHandler;
@@ -35,7 +35,13 @@ import net.minecraft.text.Text;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.lwjgl.glfw.GLFW;
 
+import java.util.List;
+
 public class ElementsUtilsClient implements ClientModInitializer {
+    public static List<ICustomScreenWidget> widgets = List.of(
+            new BossTimerDisplay()
+    );
+
     private static KeyBinding baseDisplayToggle;
     private static KeyBinding bossTimerToggle;
     private static KeyBinding excaliburTimeToggle;
@@ -119,8 +125,8 @@ public class ElementsUtilsClient implements ClientModInitializer {
 
     private boolean onGameMessage(Text text, boolean b) {
         LootSound.onGameMessage(text);
-		return true;
-	}
+        return true;
+    }
 
     private void registerKeyBinding() {
         String category = "category." + ElementsUtils.MOD_ID + ".keys";

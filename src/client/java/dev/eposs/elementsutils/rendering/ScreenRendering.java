@@ -1,6 +1,7 @@
 package dev.eposs.elementsutils.rendering;
 
 import dev.eposs.elementsutils.ElementsUtils;
+import dev.eposs.elementsutils.ElementsUtilsClient;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerDisplay;
 import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeDisplay;
 import dev.eposs.elementsutils.feature.moonphase.MoonPhaseDisplay;
@@ -30,9 +31,11 @@ public class ScreenRendering {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.world == null) return;
 
+        ElementsUtilsClient.widgets.forEach(widget -> widget.render(context, client));
+
         MoonPhaseDisplay.render(context, client);
         TimeDisplay.render(context, client);
-        BossTimerDisplay.render(context, client);
+        // new BossTimerDisplay().render(context, client);
         ExcaliburTimeDisplay.render(context, client, 6);
         PetDisplay.render(context, client);
         PotionDisplay.render(context, client);

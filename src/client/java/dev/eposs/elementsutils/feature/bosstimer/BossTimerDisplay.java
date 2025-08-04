@@ -1,6 +1,8 @@
 package dev.eposs.elementsutils.feature.bosstimer;
 
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.rendering.ICustomScreenWidget;
+import dev.eposs.elementsutils.rendering.MovableRenderWidget;
 import dev.eposs.elementsutils.util.TimerUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -15,17 +17,16 @@ import java.time.ZonedDateTime;
 import static dev.eposs.elementsutils.util.TimerUtil.getDuration;
 import static dev.eposs.elementsutils.util.TimerUtil.optionalFormattedText;
 
-public class BossTimerDisplay {
-    public static void toggleDisplay(@NotNull MinecraftClient client) {
-        if (client.player == null || client.world == null) return;
-
-        ModConfig.getConfig().bossTimer.show = !ModConfig.getConfig().bossTimer.show;
-        ModConfig.save();
-
-        if (ModConfig.getConfig().bossTimer.show) BossTimerData.updateData();
+public class BossTimerDisplay implements ICustomScreenWidget {
+    @Override
+    public MovableRenderWidget getMovableRenderWidget() {
+        MinecraftClient client = MinecraftClient.getInstance();
+        int lineHeight = client.textRenderer.fontHeight + 3;
+        return new MovableRenderWidget(0, (client.getWindow().getScaledHeight() / 2) - (lineHeight * 3), 150, lineHeight * 6, "Boss Timer Display");
     }
 
-    public static void render(DrawContext context, MinecraftClient client) {
+    @Override
+    public void render(DrawContext context, MinecraftClient client) {
         ModConfig.BossTimerConfig config = ModConfig.getConfig().bossTimer;
         if (!config.show) return;
 
@@ -37,6 +38,15 @@ public class BossTimerDisplay {
         drawText(client, context, 3, formattedText("Spider", Formatting.DARK_GRAY, timerData.getSpider(), config));
         drawText(client, context, 4, formattedText("Bogged", Formatting.DARK_GREEN, timerData.getBogged(), config));
         drawText(client, context, 5, formattedText("Piglin", Formatting.RED, timerData.getPiglin(), config));
+    }
+
+    public static void toggleDisplay(@NotNull MinecraftClient client) {
+        if (client.player == null || client.world == null) return;
+
+        ModConfig.getConfig().bossTimer.show = !ModConfig.getConfig().bossTimer.show;
+        ModConfig.save();
+
+        if (ModConfig.getConfig().bossTimer.show) BossTimerData.updateData();
     }
 
     private static Text formattedText(String name, Formatting nameColor, ZonedDateTime time, ModConfig.BossTimerConfig config) {
