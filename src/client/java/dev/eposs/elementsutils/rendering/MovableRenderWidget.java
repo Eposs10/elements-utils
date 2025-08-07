@@ -34,17 +34,22 @@ public class MovableRenderWidget extends ClickableWidget {
 
     @Override
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
-        context.fill(getX(), getY(), getX() + width, getY() + height, 0xAF00FFFF); // Aqua, semi transparent
+        int x = getX() - 1;
+        int y = getY() - 1;
+        int width = getX() + getWidth() + 1;
+        int height = getY() + getHeight() + 1;
+        
+        context.fill(x, y, width, height, 0xAF00FFFF); // Aqua, semi transparent
 
-        context.drawVerticalLine(getX(), getY(), getY() + height, Colors.BLACK);
-        context.drawVerticalLine(getX() + width, getY(), getY() + height, Colors.BLACK);
-        context.drawHorizontalLine(getX(), getX() + width, getY(), Colors.BLACK);
-        context.drawHorizontalLine(getX(), getX() + width, getY() + height, Colors.BLACK);
+        context.drawVerticalLine(x, y, height, Colors.BLACK);
+        context.drawVerticalLine(width, y, height, Colors.BLACK);
+        context.drawHorizontalLine(x, width, y, Colors.BLACK);
+        context.drawHorizontalLine(x, width, height, Colors.BLACK);
 
         if (renderText) {
             TextRenderer textRenderer = MinecraftClient.getInstance().textRenderer;
-            int textX = getX() + width / 2 - textRenderer.getWidth(this.getMessage()) / 2;
-            int textY = getY() + height / 2 - textRenderer.fontHeight / 2;
+            int textX = getX() + getWidth() / 2 - textRenderer.getWidth(this.getMessage()) / 2;
+            int textY = getY() + getHeight() / 2 - textRenderer.fontHeight / 2;
 
             context.drawText(textRenderer, this.getMessage(), textX, textY, Colors.WHITE, false);
         }
