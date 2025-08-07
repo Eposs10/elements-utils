@@ -1,16 +1,31 @@
 package dev.eposs.elementsutils.feature.time;
 
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.rendering.AbstractFeatureWidget;
+import dev.eposs.elementsutils.rendering.Feature;
+import dev.eposs.elementsutils.rendering.MovableRenderWidget;
 import dev.eposs.elementsutils.rendering.Position;
-import dev.eposs.elementsutils.rendering.ScreenPositioning;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
-public class TimeDisplay {
+import static dev.eposs.elementsutils.rendering.ScreenPositioning.*;
 
-    public static void render(DrawContext context, MinecraftClient client) {
+public class TimeDisplay extends AbstractFeatureWidget {
+
+    @Override
+    public Position getDefaultPosition() {
+        return new Position(MinecraftClient.getInstance().getWindow().getScaledWidth() - IMAGE_SIZE, PET_HEIGHT + GAP);
+    }
+
+    @Override
+    public MovableRenderWidget getMovableRenderWidget(Feature feature) {
+        return new MovableRenderWidget(getPosition().getX(), getPosition().getY(), IMAGE_SIZE, IMAGE_SIZE, "Time Display", feature);
+    }
+
+    @Override
+    public void render(DrawContext context, MinecraftClient client) {
         if (!ModConfig.getConfig().showTimeDisplay) return;
 
         assert client.world != null;
@@ -20,19 +35,16 @@ public class TimeDisplay {
 
         var texture = Identifier.of(texturePath);
 
-        Position position = ScreenPositioning.getTimePosition(client.getWindow());
-        final int size = 16;
-
         context.drawTexture(
                 RenderLayer::getGuiTextured,
                 texture,
-                position.getX(), position.getY(),
+                getPosition().getX(), getPosition().getY(),
                 0.0f, 0.0f,
-                size, size, size, size
+                IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE
         );
     }
 
-    private static String getClockTexture(long time) {
+    private String getClockTexture(long time) {
         // 00 : noon ( 6000 )
         // 16 : night start ( 13000 )
         // 32 : midnight ( 18000 )
