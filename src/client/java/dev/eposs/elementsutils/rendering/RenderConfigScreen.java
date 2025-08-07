@@ -15,7 +15,13 @@ public class RenderConfigScreen extends Screen {
         ScreenRendering.widgetMap.forEach((feature, customScreenWidget) -> addDrawableChild(customScreenWidget.getMovableRenderWidget(feature)));
 
         addDrawableChild(ButtonWidget.builder(Text.literal("Done"), button -> close())
-                .dimensions(width / 2 - 40, height - 30, 80, 20)
+                .dimensions(width / 2 - 85, height - 30, 80, 20)
+                .build());
+        addDrawableChild(ButtonWidget.builder(Text.literal("Reset"), button -> {
+                    ScreenRendering.widgetMap.forEach((feature, customScreenWidget) -> customScreenWidget.resetPosition());
+                    super.close();
+                })
+                .dimensions(width / 2 + 5, height - 30, 80, 20)
                 .build());
     }
 
