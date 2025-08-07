@@ -96,7 +96,7 @@ public class TimerUtil {
         context.drawText(
                 textRenderer,
                 text,
-                position.getX(), position.getY() + (Util.getFontLineHeight() * line),
+                position.getX(), position.getY() + (Util.getFontLineHeight() * line) + 3,
                 Colors.WHITE, outline
         );
     }

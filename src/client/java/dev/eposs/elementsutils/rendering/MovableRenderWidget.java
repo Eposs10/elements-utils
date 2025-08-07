@@ -36,8 +36,8 @@ public class MovableRenderWidget extends ClickableWidget {
     protected void renderWidget(DrawContext context, int mouseX, int mouseY, float delta) {
         int x = getX() - 1;
         int y = getY() - 1;
-        int width = getX() + getWidth() + 1;
-        int height = getY() + getHeight() + 1;
+        int width = x + getWidth() + 1;
+        int height = y + getHeight() + 1;
         
         context.fill(x, y, width, height, 0xAF00FFFF); // Aqua, semi transparent
 
