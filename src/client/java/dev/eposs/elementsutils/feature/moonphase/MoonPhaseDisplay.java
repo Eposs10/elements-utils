@@ -2,16 +2,27 @@ package dev.eposs.elementsutils.feature.moonphase;
 
 import dev.eposs.elementsutils.ElementsUtils;
 import dev.eposs.elementsutils.config.ModConfig;
-import dev.eposs.elementsutils.rendering.Position;
-import dev.eposs.elementsutils.rendering.ScreenPositioning;
+import dev.eposs.elementsutils.rendering.*;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.util.Identifier;
 
-public class MoonPhaseDisplay {
+import static dev.eposs.elementsutils.rendering.ScreenPositioning.*;
 
-    public static void render(DrawContext context, MinecraftClient client) {
+public class MoonPhaseDisplay extends AbstractFeatureWidget {
+    @Override
+    public Position getDefaultPosition() {
+        return new Position(MinecraftClient.getInstance().getWindow().getScaledWidth() - IMAGE_SIZE - IMAGE_SIZE - GAP, PET_HEIGHT + GAP);
+    }
+
+    @Override
+    public MovableRenderWidget getMovableRenderWidget(Feature feature) {
+        return new MovableRenderWidget(getPosition().getX(), getPosition().getY(), IMAGE_SIZE, IMAGE_SIZE, "Moon Phase Display", feature);
+    }
+
+    @Override
+    public void render(DrawContext context, MinecraftClient client) {
         if (!ModConfig.getConfig().showMoonPhaseDisplay) return;
 
         assert client.world != null;
@@ -19,16 +30,13 @@ public class MoonPhaseDisplay {
         if (moonPhase == null) return;
 
         var texture = Identifier.of(ElementsUtils.MOD_ID, moonPhase.getTexturePath());
-
-        Position position = ScreenPositioning.getMoonPhasePosition(client.getWindow());
-        final int size = 16;
-
+        
         context.drawTexture(
                 RenderLayer::getGuiTextured,
                 texture,
-                position.getX(), position.getY(),
+                getPosition().getX(), getPosition().getY(),
                 0.0f, 0.0f,
-                size, size, size, size
+                IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE
         );
     }
 }

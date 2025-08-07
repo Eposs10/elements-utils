@@ -26,7 +26,8 @@ public class ScreenRendering {
     public static void init() {
         widgetMap = Map.of(
                 Feature.BOSS_TIMER, new BossTimerDisplay(),
-                Feature.EXCALIBUR_TIME, new ExcaliburTimeDisplay()
+                Feature.EXCALIBUR_TIME, new ExcaliburTimeDisplay(),
+                Feature.MOON_PHASE, new MoonPhaseDisplay()
         );
     }
 
@@ -44,7 +45,7 @@ public class ScreenRendering {
 
         widgetMap.values().forEach(widget -> widget.render(context, client));
 
-        MoonPhaseDisplay.render(context, client);
+        // MoonPhaseDisplay.render(context, client);
         TimeDisplay.render(context, client);
         // new BossTimerDisplay().render(context, client);
         // ExcaliburTimeDisplay.render(context, client, 6);

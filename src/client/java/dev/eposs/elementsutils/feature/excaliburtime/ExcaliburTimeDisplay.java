@@ -1,10 +1,7 @@
 package dev.eposs.elementsutils.feature.excaliburtime;
 
 import dev.eposs.elementsutils.config.ModConfig;
-import dev.eposs.elementsutils.rendering.AbstractFeatureWidget;
-import dev.eposs.elementsutils.rendering.Feature;
-import dev.eposs.elementsutils.rendering.MovableRenderWidget;
-import dev.eposs.elementsutils.rendering.Position;
+import dev.eposs.elementsutils.rendering.*;
 import dev.eposs.elementsutils.util.TimerUtil;
 import dev.eposs.elementsutils.util.Util;
 import net.minecraft.client.MinecraftClient;
@@ -16,6 +13,8 @@ import org.jetbrains.annotations.NotNull;
 import java.time.Duration;
 import java.time.ZonedDateTime;
 
+import static dev.eposs.elementsutils.rendering.ScreenPositioning.GAP;
+
 public class ExcaliburTimeDisplay extends AbstractFeatureWidget {
     private static final int DAYS = 7;
     private static final long EXTRA_SECONDS = DAYS * 20;
@@ -23,19 +22,19 @@ public class ExcaliburTimeDisplay extends AbstractFeatureWidget {
     @Override
     public Position getDefaultPosition() {
         MinecraftClient client = MinecraftClient.getInstance();
-        return new Position(4, (client.getWindow().getScaledHeight() / 2) + (Util.getFontLineHeight() * 3) + 2);
+        return new Position(GAP, (client.getWindow().getScaledHeight() / 2) + (Util.getFontLineHeight() * 3) + 2);
     }
 
     @Override
     public void setPosition(@NotNull Position position) {
         // Add 4 pixel offset so the text is not at the edge of the screen
-        super.setPosition(position.plusX(4));
+        super.setPosition(position.plusX(GAP));
     }
 
     @Override
     public MovableRenderWidget getMovableRenderWidget(Feature feature) {
         // Remove 4 pixel offset added in setPosition()
-        return new MovableRenderWidget(getPosition().getX() - 4, getPosition().getY(), 150, Util.getFontLineHeight() * 3, "Excalibur Timer Display", feature);
+        return new MovableRenderWidget(getPosition().getX() - GAP, getPosition().getY(), 150, Util.getFontLineHeight() * 3, "Excalibur Timer Display", feature);
     }
 
     @Override
