@@ -71,7 +71,7 @@ public class PotionDisplay {
         context.drawTexture(
                 RenderLayer::getGuiTextured,
                 Identifier.of(ElementsUtils.MOD_ID, "gui/containers/" + texture),
-                position.x(), position.y(),
+                position.getX(), position.getY(),
                 0.0f, 0.0f,
                 size, size, size, size
         );
@@ -80,8 +80,8 @@ public class PotionDisplay {
         context.drawText(
                 textRenderer,
                 countString,
-                position.x() + size - textRenderer.getWidth(countString),
-                position.y() + size,
+                position.getX() + size - textRenderer.getWidth(countString),
+                position.getY() + size,
                 Colors.WHITE,
                 false
         );

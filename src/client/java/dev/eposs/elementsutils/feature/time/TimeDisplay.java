@@ -26,7 +26,7 @@ public class TimeDisplay {
         context.drawTexture(
                 RenderLayer::getGuiTextured,
                 texture,
-                position.x(), position.y(),
+                position.getX(), position.getY(),
                 0.0f, 0.0f,
                 size, size, size, size
         );

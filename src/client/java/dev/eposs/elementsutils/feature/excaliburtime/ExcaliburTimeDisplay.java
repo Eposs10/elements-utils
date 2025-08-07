@@ -1,6 +1,7 @@
 package dev.eposs.elementsutils.feature.excaliburtime;
 
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.rendering.Position;
 import dev.eposs.elementsutils.util.TimerUtil;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
@@ -92,6 +93,6 @@ public class ExcaliburTimeDisplay {
     
     private static void drawText(MinecraftClient client, DrawContext context, int line, Text text) {
         boolean outline = ModConfig.getConfig().excaliburTime.textOutline;
-        TimerUtil.drawText(client, context, line, text, outline);
+        TimerUtil.drawText(client.textRenderer, context, new Position(4, 100), line, text, outline); // TODO: Position
     }
 }

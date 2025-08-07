@@ -105,7 +105,7 @@ public class PetDisplay {
             context.drawText(
                     client.textRenderer,
                     noPet,
-                    position.x() + 6, position.y() + 12,
+                    position.getX() + 6, position.getY() + 12,
                     Colors.WHITE, false
             );
             return;
@@ -117,19 +117,19 @@ public class PetDisplay {
 
         Position position = ScreenPositioning.getPetPosition(client.getWindow());
 
-        renderCircle(context, new Position(position.x() + 16, position.y() + 16));
+        renderCircle(context, new Position(position.getX() + 16, position.getY() + 16));
 
-        context.drawItem(pet, position.x() + 8, position.y() + 8);
-        context.drawText(client.textRenderer, pet.getName(), position.x() + 32, position.y() + 6, Colors.WHITE, false); // x: circleWidth
-        context.drawText(client.textRenderer, levelText, position.x() + 32, position.y() + 6 + 8 + 4, Colors.WHITE, false); // y: marginTop + textHeight + gap
+        context.drawItem(pet, position.getX() + 8, position.getY() + 8);
+        context.drawText(client.textRenderer, pet.getName(), position.getX() + 32, position.getY() + 6, Colors.WHITE, false); // x: circleWidth
+        context.drawText(client.textRenderer, levelText, position.getX() + 32, position.getY() + 6 + 8 + 4, Colors.WHITE, false); // y: marginTop + textHeight + gap
     }
 
     private static void renderCircle(@NotNull DrawContext context, @NotNull Position centerPosition) {
         int segments = 64;
         float innerRadius = 10;
         float outerRadius = 12;
-        float centerX = centerPosition.x();
-        float centerY = centerPosition.y();
+        float centerX = centerPosition.getX();
+        float centerY = centerPosition.getY();
 
         Matrix4f transformationMatrix = context.getMatrices().peek().getPositionMatrix();
         Tessellator tessellator = Tessellator.getInstance();

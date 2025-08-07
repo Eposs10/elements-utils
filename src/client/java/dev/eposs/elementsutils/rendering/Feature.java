@@ -1,0 +1,6 @@
+package dev.eposs.elementsutils.rendering;
+
+public enum Feature {
+    BOSS_TIMER
+    
+}

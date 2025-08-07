@@ -1,7 +1,6 @@
 package dev.eposs.elementsutils.rendering;
 
 import dev.eposs.elementsutils.ElementsUtils;
-import dev.eposs.elementsutils.ElementsUtilsClient;
 import dev.eposs.elementsutils.feature.bosstimer.BossTimerDisplay;
 import dev.eposs.elementsutils.feature.excaliburtime.ExcaliburTimeDisplay;
 import dev.eposs.elementsutils.feature.moonphase.MoonPhaseDisplay;
@@ -17,7 +16,13 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Map;
+
 public class ScreenRendering {
+    
+    public static Map<Feature, AbstractFeatureWidget> widgetMap = Map.of(
+            Feature.BOSS_TIMER, new BossTimerDisplay()
+    );
 
     public static void register(@NotNull LayeredDrawerWrapper layeredDrawer) {
         layeredDrawer.attachLayerAfter(
@@ -31,7 +36,7 @@ public class ScreenRendering {
         MinecraftClient client = MinecraftClient.getInstance();
         if (client.player == null || client.world == null) return;
 
-        ElementsUtilsClient.widgets.forEach(widget -> widget.render(context, client));
+        widgetMap.values().forEach(widget -> widget.render(context, client));
 
         MoonPhaseDisplay.render(context, client);
         TimeDisplay.render(context, client);

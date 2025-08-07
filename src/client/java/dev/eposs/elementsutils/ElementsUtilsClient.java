@@ -13,7 +13,6 @@ import dev.eposs.elementsutils.feature.pet.PetDisplay;
 import dev.eposs.elementsutils.feature.playerbase.BaseBorderDisplay;
 import dev.eposs.elementsutils.feature.potion.PotionDisplay;
 import dev.eposs.elementsutils.feature.xpmeter.XpMeter;
-import dev.eposs.elementsutils.rendering.ICustomScreenWidget;
 import dev.eposs.elementsutils.rendering.ScreenRendering;
 import dev.eposs.elementsutils.util.DevUtil;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -35,13 +34,7 @@ import net.minecraft.text.Text;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.lwjgl.glfw.GLFW;
 
-import java.util.List;
-
 public class ElementsUtilsClient implements ClientModInitializer {
-    public static List<ICustomScreenWidget> widgets = List.of(
-            new BossTimerDisplay()
-    );
-
     private static KeyBinding baseDisplayToggle;
     private static KeyBinding bossTimerToggle;
     private static KeyBinding excaliburTimeToggle;

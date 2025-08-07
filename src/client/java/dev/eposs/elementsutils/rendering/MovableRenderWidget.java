@@ -11,12 +11,14 @@ import net.minecraft.util.Colors;
 import net.minecraft.util.Formatting;
 
 public class MovableRenderWidget extends ClickableWidget {
+    public final Feature modFeature;
     private boolean renderText = true;
     private double offsetX, offsetY;
 
-    public MovableRenderWidget(int x, int y, int width, int height, String name) {
+    public MovableRenderWidget(int x, int y, int width, int height, String name, Feature modFeature) {
         super(x, y, width, height, Text.literal(name).formatted(Formatting.BLACK));
         textOrTooltip(name);
+        this.modFeature = modFeature;
     }
 
     private void textOrTooltip(String name) {

@@ -1,9 +1,12 @@
 package dev.eposs.elementsutils.feature.bosstimer;
 
 import dev.eposs.elementsutils.config.ModConfig;
-import dev.eposs.elementsutils.rendering.ICustomScreenWidget;
+import dev.eposs.elementsutils.rendering.AbstractFeatureWidget;
+import dev.eposs.elementsutils.rendering.Feature;
 import dev.eposs.elementsutils.rendering.MovableRenderWidget;
+import dev.eposs.elementsutils.rendering.Position;
 import dev.eposs.elementsutils.util.TimerUtil;
+import dev.eposs.elementsutils.util.Util;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;
@@ -17,12 +20,23 @@ import java.time.ZonedDateTime;
 import static dev.eposs.elementsutils.util.TimerUtil.getDuration;
 import static dev.eposs.elementsutils.util.TimerUtil.optionalFormattedText;
 
-public class BossTimerDisplay implements ICustomScreenWidget {
+public class BossTimerDisplay extends AbstractFeatureWidget {
     @Override
-    public MovableRenderWidget getMovableRenderWidget() {
+    public Position getDefaultPosition() {
         MinecraftClient client = MinecraftClient.getInstance();
-        int lineHeight = client.textRenderer.fontHeight + 3;
-        return new MovableRenderWidget(0, (client.getWindow().getScaledHeight() / 2) - (lineHeight * 3), 150, lineHeight * 6, "Boss Timer Display");
+        return new Position(0, (client.getWindow().getScaledHeight() / 2) - (Util.getFontLineHeight() * 3));
+    }
+
+    @Override
+    public void setPosition(@NotNull Position position) {
+        // Add 4 pixel offset so the text is not at the edge of the screen
+        super.setPosition(position.plusX(4));
+    }
+
+    @Override
+    public MovableRenderWidget getMovableRenderWidget(Feature feature) {
+        // Remove 4 pixel offset added in setPosition()
+        return new MovableRenderWidget(getPosition().getX() - 4, getPosition().getY(), 150, Util.getFontLineHeight() * 6, "Boss Timer Display", feature);
     }
 
     @Override
@@ -49,7 +63,7 @@ public class BossTimerDisplay implements ICustomScreenWidget {
         if (ModConfig.getConfig().bossTimer.show) BossTimerData.updateData();
     }
 
-    private static Text formattedText(String name, Formatting nameColor, ZonedDateTime time, ModConfig.BossTimerConfig config) {
+    private Text formattedText(String name, Formatting nameColor, ZonedDateTime time, ModConfig.BossTimerConfig config) {
         return Text.literal("")
                 .append(TimerUtil.optionalFormattedText(Text.literal(name + ": "), config.colorBossNames, nameColor))
                 .append(time == null
@@ -62,7 +76,7 @@ public class BossTimerDisplay implements ICustomScreenWidget {
                 );
     }
 
-    private static Formatting getTimeColor(ZonedDateTime dateTime) {
+    private Formatting getTimeColor(ZonedDateTime dateTime) {
         if (dateTime == null) return Formatting.WHITE;
 
         Duration duration = getDuration(dateTime);
@@ -78,15 +92,15 @@ public class BossTimerDisplay implements ICustomScreenWidget {
         return Formatting.GREEN;
     }
 
-    private static MutableText toRelativeTime(@NotNull ZonedDateTime dateTime) {
+    private MutableText toRelativeTime(@NotNull ZonedDateTime dateTime) {
         Duration duration = getDuration(dateTime);
         if (duration.isNegative()) return Text.translatable("elements-utils.unknown");
 
         return Text.literal(TimerUtil.toRelativeTime(duration));
     }
 
-    private static void drawText(MinecraftClient client, DrawContext context, int line, Text text) {
+    private void drawText(@NotNull MinecraftClient client, DrawContext context, int line, Text text) {
         boolean outline = ModConfig.getConfig().bossTimer.textOutline;
-        TimerUtil.drawText(client, context, line, text, outline);
+        TimerUtil.drawText(client.textRenderer, context, getPosition(), line, text, outline);
     }
 }

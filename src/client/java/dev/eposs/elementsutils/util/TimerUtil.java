@@ -1,6 +1,7 @@
 package dev.eposs.elementsutils.util;
 
-import net.minecraft.client.MinecraftClient;
+import dev.eposs.elementsutils.rendering.Position;
+import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
@@ -80,21 +81,22 @@ public class TimerUtil {
         return enabled ? text.formatted(format) : text;
     }
 
+    
     /**
-     * Draws a text string on the client screen at a specific line position with an optional outline.
+     * Draws the specified text onto the screen at a given position, with optional outline styling.
      *
-     * @param client  the instance of {@link MinecraftClient} used to retrieve rendering settings and dimensions
-     * @param context the {@link DrawContext} used for rendering text on the screen
-     * @param line    the line number where the text should be drawn, relative to a calculated base position
-     * @param text    the {@link Text} object representing the text to be drawn
-     * @param outline a boolean flag indicating whether to render the text with an outline
+     * @param textRenderer the {@link TextRenderer} instance used to render the text
+     * @param context the {@link DrawContext} used to handle drawing operations
+     * @param position the {@link Position} defining the x and y coordinates for the text placement
+     * @param line the vertical offset in lines from the base position
+     * @param text the {@link Text} to be drawn on the screen
+     * @param outline a boolean flag indicating whether the text should be rendered with an outline
      */
-    public static void drawText(MinecraftClient client, DrawContext context, int line, Text text, boolean outline) {
-        int lineHeight = client.textRenderer.fontHeight + 3;
+    public static void drawText(TextRenderer textRenderer, @NotNull DrawContext context, @NotNull Position position, int line, Text text, boolean outline) {
         context.drawText(
-                client.textRenderer,
+                textRenderer,
                 text,
-                4, (client.getWindow().getScaledHeight() / 2) - (lineHeight * 3) + (lineHeight * line),
+                position.getX(), position.getY() + (Util.getFontLineHeight() * line),
                 Colors.WHITE, outline
         );
     }

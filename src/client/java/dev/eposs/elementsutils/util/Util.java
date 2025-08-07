@@ -39,4 +39,8 @@ public class Util {
     public static int parseXp(String xp) {
         return Integer.parseInt(xp.replace(".", "").replace(",", ""));
     }
+    
+    public static int getFontLineHeight() {
+        return MinecraftClient.getInstance().textRenderer.fontHeight + 3;
+    }
 }
