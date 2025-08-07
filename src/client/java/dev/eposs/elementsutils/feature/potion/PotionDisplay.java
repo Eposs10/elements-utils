@@ -2,11 +2,15 @@ package dev.eposs.elementsutils.feature.potion;
 
 import dev.eposs.elementsutils.ElementsUtils;
 import dev.eposs.elementsutils.config.ModConfig;
+import dev.eposs.elementsutils.rendering.AbstractFeatureWidget;
+import dev.eposs.elementsutils.rendering.Feature;
+import dev.eposs.elementsutils.rendering.MovableRenderWidget;
 import dev.eposs.elementsutils.rendering.Position;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.font.TextRenderer;
 import net.minecraft.client.gui.DrawContext;
 import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.util.Window;
 import net.minecraft.component.DataComponentTypes;
 import net.minecraft.component.type.NbtComponent;
 import net.minecraft.item.ItemStack;
@@ -15,7 +19,9 @@ import net.minecraft.util.Colors;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.collection.DefaultedList;
 
-public class PotionDisplay {
+import static dev.eposs.elementsutils.rendering.ScreenPositioning.*;
+
+public class PotionDisplay extends AbstractFeatureWidget {
     private static int smallHeal = 0;
     private static int bigHeal = 0;
     private static int smallMana = 0;
@@ -48,17 +54,29 @@ public class PotionDisplay {
                 });
     }
 
-    public static void render(DrawContext context, MinecraftClient client) {
+    @Override
+    public Position getDefaultPosition() {
+        Window window = MinecraftClient.getInstance().getWindow();
+        Position position = new Position(window.getScaledWidth() / 2 + 200 - (POTION_GAP * 4), window.getScaledHeight() - 25);
+        // Position position = new Position(0, 0);
+        ElementsUtils.LOGGER.info(position.toString());
+        return position;
+    }
+
+    @Override
+    public MovableRenderWidget getMovableRenderWidget(Feature feature) {
+        return new MovableRenderWidget(getPosition().getX(), getPosition().getY(), IMAGE_SIZE * 4 + GAP * 4, 24, "Potion Display", feature);
+    }
+
+    @Override
+    public void render(DrawContext context, MinecraftClient client) {
         if (!ModConfig.getConfig().potionDisplay.show) return;
+        
+        Position position = getPosition();
 
-        int start = 100;
-        int gap = 20;
-        int y = context.getScaledWindowHeight() - 25;
-
-        switch (ModConfig.getConfig().potionDisplay.position) {
-            case LEFT -> start = context.getScaledWindowWidth() / 2 - 200;
-            case RIGHT -> start = context.getScaledWindowWidth() / 2 + 200 - (gap * 4);
-        }
+        int start = position.getX();
+        int gap = POTION_GAP;
+        int y = position.getY();
 
         draw(context, client.textRenderer, "small_heal.png", smallHeal, new Position(start, y));
         draw(context, client.textRenderer, "big_heal.png", bigHeal, new Position(start + gap, y));
@@ -66,22 +84,21 @@ public class PotionDisplay {
         draw(context, client.textRenderer, "big_mana.png", bigMana, new Position(start + gap * 3, y));
     }
 
-    private static void draw(DrawContext context, TextRenderer textRenderer, String texture, int count, Position position) {
-        var size = 16;
+    private void draw(DrawContext context, TextRenderer textRenderer, String texture, int count, Position position) {
         context.drawTexture(
                 RenderLayer::getGuiTextured,
                 Identifier.of(ElementsUtils.MOD_ID, "gui/containers/" + texture),
                 position.getX(), position.getY(),
                 0.0f, 0.0f,
-                size, size, size, size
+                IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE, IMAGE_SIZE
         );
 
         String countString = String.valueOf(count);
         context.drawText(
                 textRenderer,
                 countString,
-                position.getX() + size - textRenderer.getWidth(countString),
-                position.getY() + size,
+                position.getX() + IMAGE_SIZE - textRenderer.getWidth(countString),
+                position.getY() + IMAGE_SIZE,
                 Colors.WHITE,
                 false
         );

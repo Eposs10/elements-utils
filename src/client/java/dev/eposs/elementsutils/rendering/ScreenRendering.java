@@ -27,6 +27,7 @@ public class ScreenRendering {
         widgetMap = Map.of(
                 Feature.BOSS_TIMER, new BossTimerDisplay(),
                 Feature.EXCALIBUR_TIME, new ExcaliburTimeDisplay(),
+                Feature.POTIONS, new PotionDisplay(),
                 Feature.MOON_PHASE, new MoonPhaseDisplay(),
                 Feature.TIME, new TimeDisplay()
         );
@@ -51,7 +52,7 @@ public class ScreenRendering {
         // new BossTimerDisplay().render(context, client);
         // ExcaliburTimeDisplay.render(context, client, 6);
         PetDisplay.render(context, client);
-        PotionDisplay.render(context, client);
+        // PotionDisplay.render(context, client);
         XpMeter.render(context, client);
     }
 }
