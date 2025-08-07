@@ -16,13 +16,19 @@ import net.minecraft.client.render.RenderTickCounter;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ScreenRendering {
     
-    public static Map<Feature, AbstractFeatureWidget> widgetMap = Map.of(
-            Feature.BOSS_TIMER, new BossTimerDisplay()
-    );
+    public static Map<Feature, AbstractFeatureWidget> widgetMap = new HashMap<>();
+    
+    public static void init() {
+        widgetMap = Map.of(
+                Feature.BOSS_TIMER, new BossTimerDisplay(),
+                Feature.EXCALIBUR_TIME, new ExcaliburTimeDisplay()
+        );
+    }
 
     public static void register(@NotNull LayeredDrawerWrapper layeredDrawer) {
         layeredDrawer.attachLayerAfter(
@@ -41,7 +47,7 @@ public class ScreenRendering {
         MoonPhaseDisplay.render(context, client);
         TimeDisplay.render(context, client);
         // new BossTimerDisplay().render(context, client);
-        ExcaliburTimeDisplay.render(context, client, 6);
+        // ExcaliburTimeDisplay.render(context, client, 6);
         PetDisplay.render(context, client);
         PotionDisplay.render(context, client);
         XpMeter.render(context, client);

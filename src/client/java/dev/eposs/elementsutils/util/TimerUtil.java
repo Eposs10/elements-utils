@@ -81,16 +81,16 @@ public class TimerUtil {
         return enabled ? text.formatted(format) : text;
     }
 
-    
+
     /**
      * Draws the specified text onto the screen at a given position, with optional outline styling.
      *
      * @param textRenderer the {@link TextRenderer} instance used to render the text
-     * @param context the {@link DrawContext} used to handle drawing operations
-     * @param position the {@link Position} defining the x and y coordinates for the text placement
-     * @param line the vertical offset in lines from the base position
-     * @param text the {@link Text} to be drawn on the screen
-     * @param outline a boolean flag indicating whether the text should be rendered with an outline
+     * @param context      the {@link DrawContext} used to handle drawing operations
+     * @param position     the {@link Position} defining the x and y coordinates for the text placement
+     * @param line         the vertical offset in lines from the base position
+     * @param text         the {@link Text} to be drawn on the screen
+     * @param outline      a boolean flag indicating whether the text should be rendered with an outline
      */
     public static void drawText(TextRenderer textRenderer, @NotNull DrawContext context, @NotNull Position position, int line, Text text, boolean outline) {
         context.drawText(
@@ -100,5 +100,4 @@ public class TimerUtil {
                 Colors.WHITE, outline
         );
     }
-
 }

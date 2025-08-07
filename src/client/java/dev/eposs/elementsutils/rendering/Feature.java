@@ -1,6 +1,7 @@
 package dev.eposs.elementsutils.rendering;
 
 public enum Feature {
-    BOSS_TIMER
+    BOSS_TIMER,
+    EXCALIBUR_TIME
     
 }

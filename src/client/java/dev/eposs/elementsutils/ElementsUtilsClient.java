@@ -18,6 +18,7 @@ import dev.eposs.elementsutils.util.DevUtil;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.keybinding.v1.KeyBindingHelper;
 import net.fabricmc.fabric.api.client.message.v1.ClientReceiveMessageEvents;
@@ -71,6 +72,8 @@ public class ElementsUtilsClient implements ClientModInitializer {
         RenderArmourCallback.EVENT.register(new RenderListener());
 
         ClientPlayerBlockBreakEvents.AFTER.register(BlockBreakCounter::onBreak);
+
+        ClientLifecycleEvents.CLIENT_STARTED.register(client -> ScreenRendering.init());
     }
 
     private void clientTick(MinecraftClient client) {

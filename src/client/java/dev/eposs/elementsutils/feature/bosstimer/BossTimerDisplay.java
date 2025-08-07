@@ -24,7 +24,7 @@ public class BossTimerDisplay extends AbstractFeatureWidget {
     @Override
     public Position getDefaultPosition() {
         MinecraftClient client = MinecraftClient.getInstance();
-        return new Position(0, (client.getWindow().getScaledHeight() / 2) - (Util.getFontLineHeight() * 3));
+        return new Position(4, (client.getWindow().getScaledHeight() / 2) - (Util.getFontLineHeight() * 3));
     }
 
     @Override
