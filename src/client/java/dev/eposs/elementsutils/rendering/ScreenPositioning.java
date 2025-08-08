@@ -3,6 +3,7 @@ package dev.eposs.elementsutils.rendering;
 import dev.eposs.elementsutils.config.ModConfig;
 import net.minecraft.client.util.Window;
 
+// TODO: remove methods and maybe move constants 
 public class ScreenPositioning {
     public static int PET_WIDTH = 64;
     public static final int PET_HEIGHT = 32;

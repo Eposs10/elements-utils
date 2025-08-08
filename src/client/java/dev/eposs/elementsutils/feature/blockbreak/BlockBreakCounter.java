@@ -10,6 +10,7 @@ import net.minecraft.util.math.BlockPos;
 import java.util.ArrayList;
 import java.util.List;
 
+// TODO: Display on screen
 public class BlockBreakCounter {
     private static final List<Long> breakTimes = new ArrayList<>();
 

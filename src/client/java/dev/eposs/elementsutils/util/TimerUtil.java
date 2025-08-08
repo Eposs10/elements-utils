@@ -15,6 +15,7 @@ import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 
+// TODO: Maybe move to common?
 public class TimerUtil {
 
     public static final DateTimeFormatter ABSOLUTE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");

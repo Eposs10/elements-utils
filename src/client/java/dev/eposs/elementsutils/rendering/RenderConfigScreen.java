@@ -14,6 +14,7 @@ public class RenderConfigScreen extends Screen {
         super.init();
         ScreenRendering.widgetMap.forEach((feature, customScreenWidget) -> addDrawableChild(customScreenWidget.getMovableRenderWidget(feature)));
 
+        // TODO: Translations
         addDrawableChild(ButtonWidget.builder(Text.literal("Done"), button -> close())
                 .dimensions(width / 2 - 85, height - 30, 80, 20)
                 .build());
